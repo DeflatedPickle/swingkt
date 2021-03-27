@@ -1,0 +1,36 @@
+plugins {
+    id 'java'
+    id 'java-library'
+
+    id 'org.jetbrains.kotlin.jvm' version '1.4.31'
+
+    id 'com.diffplug.spotless' version '5.11.1'
+}
+
+group 'com.deflatedpickle'
+archivesBaseName = 'swingkt'
+version '1.0.0'
+sourceCompatibility = '1.8'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+}
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+        languageVersion = "1.4"
+    }
+}
+
+spotless {
+    kotlin {
+        // ktlint()
+
+        licenseHeader '/* Copyright (c) $YEAR DeflatedPickle under the MIT license */\n\n'
+    }
+}
