@@ -8,7 +8,7 @@ import java.awt.Component as AWTComponent
 import com.deflatedpickle.swingkt.api.Builder
 import com.deflatedpickle.swingkt.api.Component
 import com.deflatedpickle.swingkt.api.ComponentMap
-import com.deflatedpickle.swingkt.api.Constraint
+import com.deflatedpickle.swingkt.impl.Constraint
 import com.deflatedpickle.swingkt.api.SwingDSL
 import javax.swing.Icon
 import org.jdesktop.swingx.JXLabel

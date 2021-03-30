@@ -9,9 +9,9 @@ import com.deflatedpickle.swingkt.api.Builder
 import com.deflatedpickle.swingkt.api.CloseOperation
 import com.deflatedpickle.swingkt.api.Component
 import com.deflatedpickle.swingkt.api.ComponentMap
-import com.deflatedpickle.swingkt.api.Constraint
+import com.deflatedpickle.swingkt.impl.Constraint
 import com.deflatedpickle.swingkt.api.Container
-import com.deflatedpickle.swingkt.api.Layout
+import com.deflatedpickle.swingkt.impl.Layout
 import com.deflatedpickle.swingkt.api.SwingDSL
 import java.awt.Dimension
 import java.awt.LayoutManager

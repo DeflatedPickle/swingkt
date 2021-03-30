@@ -1,6 +1,6 @@
 import com.deflatedpickle.swingkt.api.Compass
-import com.deflatedpickle.swingkt.api.Constraint
-import com.deflatedpickle.swingkt.api.Layout
+import com.deflatedpickle.swingkt.impl.Constraint
+import com.deflatedpickle.swingkt.impl.Layout
 import com.deflatedpickle.swingkt.api.Listener
 import com.deflatedpickle.swingkt.button
 import com.deflatedpickle.swingkt.frame

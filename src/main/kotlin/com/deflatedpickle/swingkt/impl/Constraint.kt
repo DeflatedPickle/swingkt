@@ -2,8 +2,10 @@
 
 @file:Suppress("CanSealedSubClassBeObject", "MemberVisibilityCanBePrivate", "unused")
 
-package com.deflatedpickle.swingkt.api
+package com.deflatedpickle.swingkt.impl
 
+import com.deflatedpickle.swingkt.api.AwtObject
+import com.deflatedpickle.swingkt.api.Compass
 import java.awt.BorderLayout
 
 sealed class Constraint : AwtObject<Any> {
