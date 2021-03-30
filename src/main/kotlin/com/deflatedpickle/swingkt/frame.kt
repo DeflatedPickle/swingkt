@@ -4,68 +4,67 @@
 
 package com.deflatedpickle.swingkt
 
+import java.awt.Component as AWTComponent
 import com.deflatedpickle.swingkt.api.Builder
 import com.deflatedpickle.swingkt.api.CloseOperation
 import com.deflatedpickle.swingkt.api.Component
-import com.deflatedpickle.swingkt.api.ComponentList
+import com.deflatedpickle.swingkt.api.ComponentMap
+import com.deflatedpickle.swingkt.api.Constraint
 import com.deflatedpickle.swingkt.api.Container
+import com.deflatedpickle.swingkt.api.Layout
 import com.deflatedpickle.swingkt.api.SwingDSL
-import java.awt.BorderLayout
-import java.awt.Component as AWTComponent
 import java.awt.Dimension
 import java.awt.LayoutManager
-import javax.swing.JFrame
+import org.jdesktop.swingx.JXFrame
 
-fun frame(block: FrameBuilder.() -> Unit) = FrameBuilder().apply(block).build()
+fun <T : Layout<LayoutManager>> frame(
+    layout: T,
+    block: FrameBuilder<T>.() -> Unit
+) = FrameBuilder(layout).apply(block).build()
 
-data class Frame(
+data class Frame<T : Layout<LayoutManager>>(
+    val layout: T,
     val title: String = "",
     val width: Int = 420,
     val height: Int = 360,
     val closeOperation: CloseOperation = CloseOperation.EXIT,
-    val layout: LayoutManager = BorderLayout(),
-    val componentList: List<Component>
-) : Container() {
-    internal val frame = JFrame().apply {
+    val componentList: Map<Component<Constraint>, Constraint>
+) : Container<T, Constraint>() {
+    internal val widget: JXFrame = JXFrame().apply {
         title = this@Frame.title
         size = Dimension(
             this@Frame.width,
             this@Frame.height
         )
         defaultCloseOperation = closeOperation.ordinal
-        layout = this@Frame.layout
-        componentList.forEach { add(it.actual()) }
+        layout = this@Frame.layout.toAWT()
+
+        componentList.forEach { this.add(it.key.toAWT(), it.value.toAWT()) }
     }
 
-    fun show(): Frame {
-        this.frame.isVisible = true
-        return this
-    }
+    fun show(): Frame<T> = this.apply { widget.isVisible = true }
+    fun hide(): Frame<T> = this.apply { widget.isVisible = false }
 
-    fun hide(): Frame {
-        this.frame.isVisible = false
-        return this
-    }
+    override fun toAWT(): AWTComponent = widget
 
-    override fun actual(): AWTComponent = frame
-
-    override fun add(component: Component) {
-        this.frame.add(component.actual())
+    override fun add(component: Component<Constraint>) {
+        this.widget.add(component.toAWT())
     }
 }
 
 @SwingDSL
-class FrameBuilder : Builder {
+class FrameBuilder<T : Layout<LayoutManager>>(
+    var layout: T
+) : Builder<Constraint> {
     var title: String = ""
     var width: Int = 0
     var height: Int = 0
     var closeOperation: CloseOperation = CloseOperation.EXIT
-    var layout: LayoutManager = BorderLayout()
 
-    private val components = mutableListOf<Component>()
-    fun components(block: ComponentList.() -> Unit) {
-        components.addAll(ComponentList().apply(block))
+    private val components = mutableMapOf<Component<Constraint>, Constraint>()
+    fun components(block: ComponentMap.() -> Unit) {
+        components.putAll(ComponentMap().apply(block))
     }
 
-    override fun build() = Frame(title, width, height, closeOperation, layout, components)
+    override fun build() = Frame(layout, title, width, height, closeOperation, components)
 }

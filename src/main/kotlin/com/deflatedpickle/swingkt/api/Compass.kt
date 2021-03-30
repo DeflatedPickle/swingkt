@@ -1,7 +1,13 @@
 /* Copyright (c) 2021 DeflatedPickle under the MIT license */
 
+@file:Suppress("unused")
+
 package com.deflatedpickle.swingkt.api
 
-interface Builder<C : Constraint> {
-    fun build(): Component<C>
+enum class Compass {
+    NORTH,
+    EAST,
+    SOUTH,
+    WEST,
+    ROSE,
 }

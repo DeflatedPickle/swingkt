@@ -2,6 +2,8 @@
 
 package com.deflatedpickle.swingkt.api
 
-abstract class Container : Component {
-    internal abstract fun add(component: Component)
+import java.awt.LayoutManager
+
+abstract class Container<T : Layout<LayoutManager>, C : Constraint> : Component<C> {
+    internal abstract fun add(component: Component<C>)
 }
