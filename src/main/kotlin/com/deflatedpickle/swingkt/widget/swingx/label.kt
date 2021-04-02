@@ -2,12 +2,12 @@
 
 @file:Suppress("MemberVisibilityCanBePrivate", "unused")
 
-package com.deflatedpickle.swingkt
+package com.deflatedpickle.swingkt.widget.swingx
 
 import java.awt.Component as AWTComponent
 import com.deflatedpickle.swingkt.api.Builder
 import com.deflatedpickle.swingkt.api.Component
-import com.deflatedpickle.swingkt.api.ComponentMap
+import com.deflatedpickle.swingkt.ComponentMap
 import com.deflatedpickle.swingkt.impl.Constraint
 import com.deflatedpickle.swingkt.api.SwingDSL
 import javax.swing.Icon
@@ -15,10 +15,8 @@ import org.jdesktop.swingx.JXLabel
 
 fun <C : Constraint> ComponentMap.label(
     constraint: C,
-    block: LabelBuilder<C>.() -> Unit
-) {
-    put(LabelBuilder(constraint).apply(block).build(), constraint)
-}
+    block: LabelBuilder<C>.() -> Unit = {}
+) = LabelBuilder(constraint).apply(block).build().apply { put(this, constraint) }
 
 @SwingDSL
 data class Label<C : Constraint>(

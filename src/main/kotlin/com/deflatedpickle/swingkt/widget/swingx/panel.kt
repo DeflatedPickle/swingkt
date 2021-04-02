@@ -2,12 +2,12 @@
 
 @file:Suppress("MemberVisibilityCanBePrivate", "unused")
 
-package com.deflatedpickle.swingkt
+package com.deflatedpickle.swingkt.widget.swingx
 
 import java.awt.Component as AWTComponent
 import com.deflatedpickle.swingkt.api.Builder
 import com.deflatedpickle.swingkt.api.Component
-import com.deflatedpickle.swingkt.api.ComponentMap
+import com.deflatedpickle.swingkt.ComponentMap
 import com.deflatedpickle.swingkt.impl.Constraint
 import com.deflatedpickle.swingkt.api.Container
 import com.deflatedpickle.swingkt.impl.Layout
@@ -18,10 +18,8 @@ import org.jdesktop.swingx.JXPanel
 fun <C : Constraint, T : Layout<LayoutManager>> ComponentMap.panel(
     layout: T,
     constraint: C,
-    block: PanelBuilder<C, T>.() -> Unit
-) {
-    put(PanelBuilder(constraint, layout).apply(block).build(), constraint)
-}
+    block: PanelBuilder<C, T>.() -> Unit = {}
+) = PanelBuilder(constraint, layout).apply(block).build().apply { put(this, constraint) }
 
 data class Panel<C : Constraint, T : Layout<LayoutManager>>(
     val constraint: C,
@@ -47,7 +45,7 @@ class PanelBuilder<C : Constraint, T : Layout<LayoutManager>>(
     var layout: T,
 ) : Builder<Constraint> {
     private val components = mutableMapOf<Component<Constraint>, Constraint>()
-    fun components(block: ComponentMap.() -> Unit) {
+    infix fun components(block: ComponentMap.() -> Unit) {
         components.putAll(ComponentMap().apply(block))
     }
 

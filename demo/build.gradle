@@ -1,4 +1,6 @@
 plugins {
+    id 'application'
+
     id 'org.jetbrains.kotlin.jvm'
 }
 
@@ -16,5 +18,13 @@ compileKotlin {
     kotlinOptions {
         jvmTarget = "1.8"
         languageVersion = "1.4"
+    }
+}
+
+run {
+    application {
+        args = [
+                "-Xopt-in=kotlin.RequiresOptIn"
+        ]
     }
 }

@@ -15,7 +15,9 @@ sealed class Constraint : AwtObject<Any> {
         CENTER,
     }
 
-    class Border(val side: Compass = Compass.ROSE) : Constraint() {
+    data class Border(
+        val side: Compass = Compass.ROSE
+    ) : Constraint() {
         override fun toAWT(): String = when (side) {
             Compass.NORTH -> BorderLayout.NORTH
             Compass.EAST -> BorderLayout.EAST
@@ -25,7 +27,9 @@ sealed class Constraint : AwtObject<Any> {
         }
     }
 
-    class Flow(val alignment: Alignment = Alignment.CENTER) : Constraint() {
+    data class Flow(
+        val alignment: Alignment = Alignment.CENTER
+    ) : Constraint() {
         override fun toAWT(): Int = this.alignment.ordinal
     }
 }

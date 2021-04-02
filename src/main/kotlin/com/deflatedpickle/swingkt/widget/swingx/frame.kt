@@ -2,13 +2,13 @@
 
 @file:Suppress("MemberVisibilityCanBePrivate", "unused")
 
-package com.deflatedpickle.swingkt
+package com.deflatedpickle.swingkt.widget.swingx
 
 import java.awt.Component as AWTComponent
 import com.deflatedpickle.swingkt.api.Builder
 import com.deflatedpickle.swingkt.api.CloseOperation
 import com.deflatedpickle.swingkt.api.Component
-import com.deflatedpickle.swingkt.api.ComponentMap
+import com.deflatedpickle.swingkt.ComponentMap
 import com.deflatedpickle.swingkt.impl.Constraint
 import com.deflatedpickle.swingkt.api.Container
 import com.deflatedpickle.swingkt.impl.Layout
@@ -19,7 +19,7 @@ import org.jdesktop.swingx.JXFrame
 
 fun <T : Layout<LayoutManager>> frame(
     layout: T,
-    block: FrameBuilder<T>.() -> Unit
+    block: FrameBuilder<T>.() -> Unit = {}
 ) = FrameBuilder(layout).apply(block).build()
 
 data class Frame<T : Layout<LayoutManager>>(
@@ -62,7 +62,7 @@ class FrameBuilder<T : Layout<LayoutManager>>(
     var closeOperation: CloseOperation = CloseOperation.EXIT
 
     private val components = mutableMapOf<Component<Constraint>, Constraint>()
-    fun components(block: ComponentMap.() -> Unit) {
+    infix fun components(block: ComponentMap.() -> Unit) {
         components.putAll(ComponentMap().apply(block))
     }
 

@@ -2,6 +2,5 @@
 
 package com.deflatedpickle.swingkt.api
 
-@Target(AnnotationTarget.CLASS)
 @DslMarker
 annotation class SwingDSL

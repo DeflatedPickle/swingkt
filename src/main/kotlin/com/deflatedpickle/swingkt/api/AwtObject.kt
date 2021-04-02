@@ -2,6 +2,6 @@
 
 package com.deflatedpickle.swingkt.api
 
-interface AwtObject <T> {
+interface AwtObject <out T> {
     fun toAWT(): T
 }

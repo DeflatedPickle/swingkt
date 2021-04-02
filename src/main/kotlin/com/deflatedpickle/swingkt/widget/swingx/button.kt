@@ -2,12 +2,12 @@
 
 @file:Suppress("MemberVisibilityCanBePrivate", "unused")
 
-package com.deflatedpickle.swingkt
+package com.deflatedpickle.swingkt.widget.swingx
 
 import java.awt.Component as AWTComponent
 import com.deflatedpickle.swingkt.api.Builder
 import com.deflatedpickle.swingkt.api.Component
-import com.deflatedpickle.swingkt.api.ComponentMap
+import com.deflatedpickle.swingkt.ComponentMap
 import com.deflatedpickle.swingkt.impl.Constraint
 import com.deflatedpickle.swingkt.api.Event
 import com.deflatedpickle.swingkt.api.Listener
@@ -19,9 +19,7 @@ import org.jdesktop.swingx.JXButton
 fun <C : Constraint> ComponentMap.button(
     constraint: C,
     block: ButtonBuilder<C>.() -> Unit
-) {
-    put(ButtonBuilder(constraint).apply(block).build(), constraint)
-}
+) = ButtonBuilder(constraint).apply(block).build().apply { put (this, constraint) }
 
 @SwingDSL
 data class Button<C : Constraint>(

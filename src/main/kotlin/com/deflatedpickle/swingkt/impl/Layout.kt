@@ -17,7 +17,7 @@ sealed class Layout<out T : LayoutManager> : AwtObject<LayoutManager> {
         RIGHT,
     }
 
-    class Border(
+    data class Border(
         val hGap: Int = 0,
         val vGap: Int = 0
     ) : Layout<BorderLayout>() {
@@ -29,7 +29,7 @@ sealed class Layout<out T : LayoutManager> : AwtObject<LayoutManager> {
         }
     }
 
-    class Flow(
+    data class Flow(
         val alignment: Alignment = Alignment.CENTER,
         val alignOnBaseline: Boolean = false,
         val hGap: Int = 5,
