@@ -11,15 +11,16 @@ import javax.swing.SpinnerDateModel
 import javax.swing.SpinnerListModel
 import javax.swing.SpinnerModel
 import javax.swing.SpinnerNumberModel
+import java.util.Date as JDate
 
 sealed class Model<out M, out T> : AwtObject<M> {
     sealed class Spinner<out M : SpinnerModel, out T> : Model<SpinnerModel, T>() {
-        class Date<T : java.util.Date>(
+        class Date<T : JDate>(
             block: Date<T>.() -> Unit
-        ) : Spinner<SpinnerDateModel, java.util.Date>() {
+        ) : Spinner<SpinnerDateModel, JDate>() {
             var value: T = Date() as T
-            var start: Comparable<T> = Date()
-            var end: Comparable<T> = Date()
+            var start: Comparable<JDate> = Date()
+            var end: Comparable<JDate> = Date()
             var field: Calendar = Calendar.DAY_OF_MONTH
 
             init {

@@ -6,4 +6,4 @@ import com.deflatedpickle.swingkt.api.Component
 import com.deflatedpickle.swingkt.impl.Constraint
 
 typealias ComponentList = ArrayList<Component<Constraint>>
-typealias ComponentMap = HashMap<Component<Constraint>, Constraint>
+typealias ComponentMap = LinkedHashMap<Component<Constraint>, Constraint>

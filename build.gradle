@@ -2,18 +2,18 @@ plugins {
     id 'java'
     id 'java-library'
 
-    id 'org.jetbrains.kotlin.jvm' version '1.4.31'
+    id 'org.jetbrains.kotlin.jvm'
 
-    id 'com.diffplug.spotless' version '5.11.1'
+    id 'com.diffplug.spotless'
 }
 
-group 'com.deflatedpickle'
-archivesBaseName = 'swingkt'
-version '1.0.0'
-sourceCompatibility = '1.8'
+group "$group"
+archivesBaseName = "$name"
+version "$version"
+sourceCompatibility = "$jvmTarget"
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
@@ -26,14 +26,34 @@ dependencies {
 compileKotlin {
     kotlinOptions {
         jvmTarget = "1.8"
-        languageVersion = "1.4"
+        languageVersion = "1.5"
+
+        freeCompilerArgs = [
+                "-Xopt-in=kotlin.RequiresOptIn",
+                "-Xinline-classes"
+        ]
     }
 }
 
 spotless {
-    kotlin {
-        // ktlint()
+    ratchetFrom 'origin/main'
 
-        licenseHeader '/* Copyright (c) $YEAR DeflatedPickle under the MIT license */\n\n'
+    groovyGradle {
+        target '*.gradle'
+        greclipse()
+    }
+
+    kotlin {
+        ktlint("$ktlintVersion")
+
+        licenseHeader "/* $licenseHeader */\n\n"
+    }
+
+    format 'misc', {
+        target '*.md', '.gitignore'
+
+        trimTrailingWhitespace()
+        indentWithTabs()
+        endWithNewline()
     }
 }
