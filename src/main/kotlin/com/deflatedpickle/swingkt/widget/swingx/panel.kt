@@ -16,8 +16,8 @@ import java.awt.LayoutManager
 import org.jdesktop.swingx.JXPanel
 
 fun <C : Constraint, T : Layout<LayoutManager>> ComponentMap.panel(
-    layout: T,
     constraint: C,
+    layout: T,
     block: PanelBuilder<C, T>.() -> Unit = {}
 ) = PanelBuilder(constraint, layout).apply(block).build().apply { put(this, constraint) }
 

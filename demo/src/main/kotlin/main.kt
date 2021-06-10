@@ -3,23 +3,22 @@ import com.deflatedpickle.swingkt.impl.Constraint
 import com.deflatedpickle.swingkt.impl.Layout
 import com.deflatedpickle.swingkt.api.Listener
 import com.deflatedpickle.swingkt.impl.Model
-import com.deflatedpickle.swingkt.widget.swing.spinner
-import com.deflatedpickle.swingkt.widget.swingx.button
-import com.deflatedpickle.swingkt.widget.swingx.frame
-import com.deflatedpickle.swingkt.widget.swingx.label
-import com.deflatedpickle.swingkt.widget.swingx.panel
-import java.util.Date
+import com.deflatedpickle.swingkt.widget.swing.*
+import com.deflatedpickle.swingkt.widget.swingx.*
+import javax.swing.UIManager
 
 fun main() {
-    frame(Layout.Flow()) {
+    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
+
+    frame(Layout.Border()) {
         title = "frame"
         width = 420
         height = 360
 
         components {
-            panel(Layout.Border(5, 5), Constraint.Flow()) {
+            panel(Constraint.Border(), Layout.Flow()) {
                 components {
-                    button(Constraint.Border(Compass.EAST)) {
+                    button(Constraint.Flow()) {
                         text = "ok"
 
                         onClick += Listener {
@@ -27,11 +26,11 @@ fun main() {
                         }
                     }
 
-                    label(Constraint.Border(Compass.WEST)) {
-                        text = "press"
+                    label(Constraint.Flow()) {
+                        text = "Label"
                     }
 
-                    spinner(Constraint.Border(Compass.ROSE)) {
+                    spinner(Constraint.Flow()) {
                         model = Model.Spinner.Number<Double> {
                             value = 8.0
                             min = -2.0
@@ -42,6 +41,11 @@ fun main() {
                         onChange += Listener {
                             println("it has changed")
                         }
+                    }
+
+                    textfield(Constraint.Flow()) {
+                        text = "Hello"
+                        prompt = "Greeting"
                     }
                 }
             }
