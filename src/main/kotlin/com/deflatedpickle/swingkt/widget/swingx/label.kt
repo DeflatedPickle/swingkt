@@ -4,19 +4,17 @@
 
 package com.deflatedpickle.swingkt.widget.swingx
 
-import java.awt.Component as AWTComponent
-import com.deflatedpickle.swingkt.api.Builder
 import com.deflatedpickle.swingkt.api.Component
-import com.deflatedpickle.swingkt.ComponentMap
-import com.deflatedpickle.swingkt.impl.Constraint
 import com.deflatedpickle.swingkt.api.SwingDSL
-import javax.swing.Icon
+import com.deflatedpickle.swingkt.impl.Constraint
+import com.deflatedpickle.swingkt.impl.WidgetBuilder
 import org.jdesktop.swingx.JXLabel
+import javax.swing.Icon
 
-fun <C : Constraint> ComponentMap.label(
+fun <C : Constraint> WidgetBuilder<*, C>.label(
     constraint: C,
     block: LabelBuilder<C>.() -> Unit = {}
-) = LabelBuilder(constraint).apply(block).build().apply { put(this, constraint) }
+) = LabelBuilder(constraint).apply(block).make().apply { components[this] = constraint }
 
 @SwingDSL
 data class Label<C : Constraint>(
@@ -29,13 +27,13 @@ data class Label<C : Constraint>(
         icon = this@Label.icon
     }
 
-    override fun toAWT(): AWTComponent = widget
+    override fun toAWT(): JXLabel = widget
 }
 
 @SwingDSL
 class LabelBuilder<C : Constraint>(
     var constraint: C
-) : Builder<C> {
+) : WidgetBuilder<Label<*>, C>() {
     var text: String? = null
     var icon: Icon? = null
 

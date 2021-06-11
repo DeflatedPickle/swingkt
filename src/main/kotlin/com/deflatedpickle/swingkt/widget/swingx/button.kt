@@ -4,22 +4,20 @@
 
 package com.deflatedpickle.swingkt.widget.swingx
 
-import java.awt.Component as AWTComponent
-import com.deflatedpickle.swingkt.api.Builder
 import com.deflatedpickle.swingkt.api.Component
-import com.deflatedpickle.swingkt.ComponentMap
-import com.deflatedpickle.swingkt.impl.Constraint
 import com.deflatedpickle.swingkt.api.Event
 import com.deflatedpickle.swingkt.api.Listener
 import com.deflatedpickle.swingkt.api.SwingDSL
+import com.deflatedpickle.swingkt.impl.Constraint
+import com.deflatedpickle.swingkt.impl.WidgetBuilder
+import org.jdesktop.swingx.JXButton
 import javax.swing.Action
 import javax.swing.Icon
-import org.jdesktop.swingx.JXButton
 
-fun <C : Constraint> ComponentMap.button(
+fun <C : Constraint> WidgetBuilder<*, C>.button(
     constraint: C,
     block: ButtonBuilder<C>.() -> Unit
-) = ButtonBuilder(constraint).apply(block).build().apply { put (this, constraint) }
+) = ButtonBuilder(constraint).apply(block).make().apply { components[this] = constraint }
 
 @SwingDSL
 data class Button<C : Constraint>(
@@ -41,13 +39,13 @@ data class Button<C : Constraint>(
         onChangeListeners.forEach { e -> addChangeListener { e.action(Event(it.source)) } }
     }
 
-    override fun toAWT(): AWTComponent = widget
+    override fun toAWT(): JXButton = widget
 }
 
 @SwingDSL
 class ButtonBuilder<C : Constraint>(
     var constraint: C
-) : Builder<C> {
+) : WidgetBuilder<Button<*>, C>() {
     var text: String? = null
     var icon: Icon? = null
     var action: Action? = null

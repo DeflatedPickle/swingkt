@@ -4,50 +4,38 @@
 
 package com.deflatedpickle.swingkt.widget.swingx
 
-import java.awt.Component as AWTComponent
-import com.deflatedpickle.swingkt.api.Builder
-import com.deflatedpickle.swingkt.api.Component
 import com.deflatedpickle.swingkt.ComponentMap
-import com.deflatedpickle.swingkt.impl.Constraint
 import com.deflatedpickle.swingkt.api.Container
-import com.deflatedpickle.swingkt.impl.Layout
 import com.deflatedpickle.swingkt.api.SwingDSL
-import java.awt.LayoutManager
+import com.deflatedpickle.swingkt.impl.Constraint
+import com.deflatedpickle.swingkt.impl.Layout
+import com.deflatedpickle.swingkt.impl.WidgetBuilder
 import org.jdesktop.swingx.JXPanel
+import java.awt.LayoutManager
+import javax.swing.JComponent
 
-fun <C : Constraint, T : Layout<LayoutManager>> ComponentMap.panel(
+fun <C : Constraint, T : Layout<LayoutManager>> WidgetBuilder<*, C>.panel(
     constraint: C,
     layout: T,
     block: PanelBuilder<C, T>.() -> Unit = {}
-) = PanelBuilder(constraint, layout).apply(block).build().apply { put(this, constraint) }
+) = PanelBuilder(constraint, layout).apply(block).make().apply { components[this] = constraint }
 
 data class Panel<C : Constraint, T : Layout<LayoutManager>>(
     val constraint: C,
     val layout: T,
-    val componentList: Map<Component<C>, C>
+    val componentList: ComponentMap
 ) : Container<T, C>() {
     val widget = JXPanel().apply {
         layout = this@Panel.layout.toAWT()
-
-        componentList.forEach { this.add(it.key.toAWT(), it.value.toAWT()) }
     }
 
-    override fun add(component: Component<C>) {
-        this.widget.add(component.toAWT())
-    }
-
-    override fun toAWT(): AWTComponent = widget
+    override fun toAWT(): JComponent = widget
 }
 
 @SwingDSL
 class PanelBuilder<C : Constraint, T : Layout<LayoutManager>>(
     var constraint: C,
     var layout: T,
-) : Builder<Constraint> {
-    private val components = mutableMapOf<Component<Constraint>, Constraint>()
-    infix fun components(block: ComponentMap.() -> Unit) {
-        components.putAll(ComponentMap().apply(block))
-    }
-
+) : WidgetBuilder<Panel<*, *>, C>() {
     override fun build() = Panel(constraint, layout, components)
 }
