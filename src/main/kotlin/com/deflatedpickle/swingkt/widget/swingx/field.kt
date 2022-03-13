@@ -1,22 +1,24 @@
-/* Copyright (c) 2021 DeflatedPickle under the MIT license */
+/* Copyright (c) 2021-2022 DeflatedPickle under the MIT license */
 
 @file:Suppress("MemberVisibilityCanBePrivate", "unused", "SpellCheckingInspection")
 
 package com.deflatedpickle.swingkt.widget.swingx
+
 import com.deflatedpickle.swingkt.api.Alignment
 import com.deflatedpickle.swingkt.api.Component
 import com.deflatedpickle.swingkt.api.Event
 import com.deflatedpickle.swingkt.api.Listener
 import com.deflatedpickle.swingkt.api.SwingDSL
 import com.deflatedpickle.swingkt.impl.Constraint
+import com.deflatedpickle.swingkt.impl.Font
 import com.deflatedpickle.swingkt.impl.WidgetBuilder
 import org.jdesktop.swingx.JXTextField
-import java.awt.Font
 import javax.swing.Action
+import kotlin.collections.List as KList
 
 fun <C : Constraint> WidgetBuilder<*, C>.field(
     constraint: C,
-    block: FieldBuilder<C>.() -> Unit
+    block: FieldBuilder<C>.() -> Unit = {}
 ) = FieldBuilder(constraint).apply(block).make().apply { components[this] = constraint }
 
 @SwingDSL
@@ -29,14 +31,14 @@ data class Field<C : Constraint>(
     val font: Font? = null,
     val offset: Int = 0,
     val action: Action? = null,
-    val onClickListeners: List<Listener> = listOf(),
+    val onClickListeners: KList<Listener> = listOf(),
 ) : Component<C> {
     internal val widget = JXTextField().apply {
         text = this@Field.text
         prompt = this@Field.prompt
         columns = this@Field.columns
         horizontalAlignment = this@Field.alignment.ordinal
-        this@Field.font?.let { font = it }
+        this@Field.font?.let { font = it.toAWT() }
         this@Field.action?.let { action = it }
         scrollOffset = this@Field.offset
 

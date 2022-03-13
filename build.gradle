@@ -1,10 +1,10 @@
 plugins {
-    id 'java'
-    id 'java-library'
+	id 'java'
+	id 'java-library'
 
-    id 'org.jetbrains.kotlin.jvm'
+	id 'org.jetbrains.kotlin.jvm'
 
-    id 'com.diffplug.spotless'
+	id 'com.diffplug.spotless'
 }
 
 group "$group"
@@ -13,47 +13,48 @@ version "$version"
 sourceCompatibility = "$jvmTarget"
 
 repositories {
-    mavenCentral()
+	mavenCentral()
+	maven { url 'https://jitpack.io' }
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+	implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+	implementation "org.jetbrains.kotlin:kotlin-reflect:1.4.31"
 
-    implementation 'org.swinglabs:swingx:1.6.1'
-    implementation "org.jetbrains.kotlin:kotlin-reflect:1.4.31"
+	implementation 'org.swinglabs:swingx:1.6.1'
 }
 
 compileKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-        languageVersion = "1.5"
+	kotlinOptions {
+		jvmTarget = "1.8"
+		languageVersion = "1.5"
 
-        freeCompilerArgs = [
-                "-Xopt-in=kotlin.RequiresOptIn",
-                "-Xinline-classes"
-        ]
-    }
+		freeCompilerArgs = [
+			"-Xopt-in=kotlin.RequiresOptIn",
+			"-Xinline-classes"
+		]
+	}
 }
 
 spotless {
-    ratchetFrom 'origin/main'
+	ratchetFrom 'origin/main'
 
-    groovyGradle {
-        target '*.gradle'
-        greclipse()
-    }
+	groovyGradle {
+		target '*.gradle'
+		greclipse()
+	}
 
-    kotlin {
-        ktlint("$ktlintVersion")
+	kotlin {
+		ktlint("$ktlintVersion")
 
-        licenseHeader "/* $licenseHeader */\n\n"
-    }
+		licenseHeader "/* $licenseHeader */\n\n"
+	}
 
-    format 'misc', {
-        target '*.md', '.gitignore'
+	format 'misc', {
+		target '*.md', '.gitignore'
 
-        trimTrailingWhitespace()
-        indentWithTabs()
-        endWithNewline()
-    }
+		trimTrailingWhitespace()
+		indentWithTabs()
+		endWithNewline()
+	}
 }

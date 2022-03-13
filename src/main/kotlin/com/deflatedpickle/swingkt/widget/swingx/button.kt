@@ -1,4 +1,4 @@
-/* Copyright (c) 2021 DeflatedPickle under the MIT license */
+/* Copyright (c) 2021-2022 DeflatedPickle under the MIT license */
 
 @file:Suppress("MemberVisibilityCanBePrivate", "unused")
 
@@ -13,10 +13,11 @@ import com.deflatedpickle.swingkt.impl.WidgetBuilder
 import org.jdesktop.swingx.JXButton
 import javax.swing.Action
 import javax.swing.Icon
+import kotlin.collections.List as KList
 
 fun <C : Constraint> WidgetBuilder<*, C>.button(
     constraint: C,
-    block: ButtonBuilder<C>.() -> Unit
+    block: ButtonBuilder<C>.() -> Unit = {}
 ) = ButtonBuilder(constraint).apply(block).make().apply { components[this] = constraint }
 
 @SwingDSL
@@ -26,14 +27,14 @@ data class Button<C : Constraint>(
     val icon: Icon? = null,
     val action: Action? = null,
     val mnemonic: Char? = null,
-    val onClickListeners: List<Listener> = listOf(),
-    val onChangeListeners: List<Listener> = listOf()
+    val onClickListeners: KList<Listener> = listOf(),
+    val onChangeListeners: KList<Listener> = listOf()
 ) : Component<C> {
     internal val widget = JXButton().apply {
         text = this@Button.text
         icon = this@Button.icon
         this@Button.action?.let { action = it }
-        this@Button.mnemonic?.let { mnemonic = it.toInt() }
+        this@Button.mnemonic?.let { mnemonic = it.code }
 
         onClickListeners.forEach { e -> addActionListener { e.action(Event(it.source)) } }
         onChangeListeners.forEach { e -> addChangeListener { e.action(Event(it.source)) } }

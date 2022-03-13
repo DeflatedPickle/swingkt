@@ -1,4 +1,6 @@
-/* Copyright (c) 2021 DeflatedPickle under the MIT license */
+/* Copyright (c) 2021-2022 DeflatedPickle under the MIT license */
+
+@file:Suppress("UNCHECKED_CAST")
 
 package com.deflatedpickle.swingkt.impl
 
