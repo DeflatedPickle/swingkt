@@ -9,14 +9,15 @@ import com.deflatedpickle.swingkt.api.Event
 import com.deflatedpickle.swingkt.api.Listener
 import com.deflatedpickle.swingkt.api.SwingDSL
 import com.deflatedpickle.swingkt.impl.Constraint
+import com.deflatedpickle.swingkt.impl.ContainerBuilder
 import com.deflatedpickle.swingkt.impl.Model
 import com.deflatedpickle.swingkt.impl.WidgetBuilder
 import javax.swing.JSpinner
 
-fun <C : Constraint> WidgetBuilder<*, C>.spinner(
+fun <C : Constraint> ContainerBuilder<*, C>.spinner(
     constraint: C,
     block: SpinnerBuilder<C>.() -> Unit = {}
-) = SpinnerBuilder(constraint).apply(block).make().apply { components[this] = constraint }
+) = SpinnerBuilder(constraint).apply(block).build().apply { components[this] = constraint }
 
 inline fun <reified T : Any, C : Constraint> Spinner(
     constraint: C,

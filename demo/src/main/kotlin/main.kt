@@ -1,7 +1,13 @@
+import com.deflatedpickle.swingkt.api.Compass
 import com.deflatedpickle.swingkt.api.Listener
 import com.deflatedpickle.swingkt.impl.Constraint
 import com.deflatedpickle.swingkt.impl.Layout
 import com.deflatedpickle.swingkt.impl.Model
+import com.deflatedpickle.swingkt.widget.swing.menu.button
+import com.deflatedpickle.swingkt.widget.swing.menu.checkbox
+import com.deflatedpickle.swingkt.widget.swing.menu.menu
+import com.deflatedpickle.swingkt.widget.swing.menu.menubar
+import com.deflatedpickle.swingkt.widget.swing.menu.radiobutton
 import com.deflatedpickle.swingkt.widget.swing.slider
 import com.deflatedpickle.swingkt.widget.swing.spinner
 import com.deflatedpickle.swingkt.widget.swingx.button
@@ -19,6 +25,36 @@ fun main() {
         title = "frame"
         width = 420
         height = 360
+
+        menubar(Constraint.Border(Compass.SOUTH)) {
+            menu {
+                text = "File"
+
+                button {
+                    text = "Open"
+                }
+
+                menu {
+                    text = "Exit"
+
+                    radiobutton {
+                        text = "Now"
+                    }
+
+                    radiobutton {
+                        text = "Later"
+                    }
+
+                    checkbox {
+                        text = "Never"
+                    }
+                }
+            }
+
+            button {
+                text = "Hello"
+            }
+        }
 
         panel(Constraint.Border(), Layout.Flow()) {
             button(Constraint.Flow()) {

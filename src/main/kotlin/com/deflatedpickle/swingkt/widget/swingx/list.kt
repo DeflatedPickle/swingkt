@@ -12,6 +12,7 @@ import com.deflatedpickle.swingkt.api.SelectionMode
 import com.deflatedpickle.swingkt.api.Sort
 import com.deflatedpickle.swingkt.api.SwingDSL
 import com.deflatedpickle.swingkt.impl.Constraint
+import com.deflatedpickle.swingkt.impl.ContainerBuilder
 import com.deflatedpickle.swingkt.impl.Model
 import com.deflatedpickle.swingkt.impl.WidgetBuilder
 import org.jdesktop.swingx.JXList
@@ -20,10 +21,10 @@ import javax.swing.event.ListDataEvent
 import javax.swing.event.ListDataListener
 import kotlin.collections.List as KList
 
-fun <C : Constraint> WidgetBuilder<*, C>.list(
+fun <C : Constraint> ContainerBuilder<*, C>.list(
     constraint: C,
     block: ListBuilder<C>.() -> Unit = {}
-) = ListBuilder(constraint).apply(block).make().apply { components[this] = constraint }
+) = ListBuilder(constraint).apply(block).build().apply { components[this] = constraint }
 
 @SwingDSL
 data class List<C : Constraint>(

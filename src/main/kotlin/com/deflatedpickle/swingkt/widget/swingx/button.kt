@@ -9,16 +9,17 @@ import com.deflatedpickle.swingkt.api.Event
 import com.deflatedpickle.swingkt.api.Listener
 import com.deflatedpickle.swingkt.api.SwingDSL
 import com.deflatedpickle.swingkt.impl.Constraint
+import com.deflatedpickle.swingkt.impl.ContainerBuilder
 import com.deflatedpickle.swingkt.impl.WidgetBuilder
 import org.jdesktop.swingx.JXButton
 import javax.swing.Action
 import javax.swing.Icon
 import kotlin.collections.List as KList
 
-fun <C : Constraint> WidgetBuilder<*, C>.button(
+fun <C : Constraint> ContainerBuilder<*, C>.button(
     constraint: C,
     block: ButtonBuilder<C>.() -> Unit = {}
-) = ButtonBuilder(constraint).apply(block).make().apply { components[this] = constraint }
+) = ButtonBuilder(constraint).apply(block).build().apply { components[this] = constraint }
 
 @SwingDSL
 data class Button<C : Constraint>(

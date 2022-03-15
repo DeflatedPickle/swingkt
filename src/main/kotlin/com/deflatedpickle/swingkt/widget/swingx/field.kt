@@ -10,16 +10,17 @@ import com.deflatedpickle.swingkt.api.Event
 import com.deflatedpickle.swingkt.api.Listener
 import com.deflatedpickle.swingkt.api.SwingDSL
 import com.deflatedpickle.swingkt.impl.Constraint
+import com.deflatedpickle.swingkt.impl.ContainerBuilder
 import com.deflatedpickle.swingkt.impl.Font
 import com.deflatedpickle.swingkt.impl.WidgetBuilder
 import org.jdesktop.swingx.JXTextField
 import javax.swing.Action
 import kotlin.collections.List as KList
 
-fun <C : Constraint> WidgetBuilder<*, C>.field(
+fun <C : Constraint> ContainerBuilder<*, C>.field(
     constraint: C,
     block: FieldBuilder<C>.() -> Unit = {}
-) = FieldBuilder(constraint).apply(block).make().apply { components[this] = constraint }
+) = FieldBuilder(constraint).apply(block).build().apply { components[this] = constraint }
 
 @SwingDSL
 data class Field<C : Constraint>(

@@ -8,13 +8,13 @@ import com.deflatedpickle.swingkt.ComponentMap
 import com.deflatedpickle.swingkt.api.Container
 import com.deflatedpickle.swingkt.api.SwingDSL
 import com.deflatedpickle.swingkt.impl.Constraint
+import com.deflatedpickle.swingkt.impl.ContainerBuilder
 import com.deflatedpickle.swingkt.impl.Layout
-import com.deflatedpickle.swingkt.impl.WidgetBuilder
 import org.jdesktop.swingx.JXPanel
 import java.awt.LayoutManager
 import javax.swing.JComponent
 
-fun <C : Constraint, T : Layout<LayoutManager>> WidgetBuilder<*, C>.panel(
+fun <C : Constraint, T : Layout<LayoutManager>> ContainerBuilder<*, C>.panel(
     constraint: C,
     layout: T,
     block: PanelBuilder<C, T>.() -> Unit = {}
@@ -36,6 +36,6 @@ data class Panel<C : Constraint, T : Layout<LayoutManager>>(
 class PanelBuilder<C : Constraint, T : Layout<LayoutManager>>(
     var constraint: C,
     var layout: T,
-) : WidgetBuilder<Panel<*, *>, C>() {
+) : ContainerBuilder<Panel<*, *>, C>() {
     override fun build() = Panel(constraint, layout, components)
 }

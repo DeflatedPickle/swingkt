@@ -9,8 +9,9 @@ import com.deflatedpickle.swingkt.api.CloseOperation
 import com.deflatedpickle.swingkt.api.Container
 import com.deflatedpickle.swingkt.api.SwingDSL
 import com.deflatedpickle.swingkt.impl.Constraint
+import com.deflatedpickle.swingkt.impl.ContainerBuilder
 import com.deflatedpickle.swingkt.impl.Layout
-import com.deflatedpickle.swingkt.impl.WidgetBuilder
+import com.deflatedpickle.swingkt.widget.swing.menu.MenuBar
 import org.jdesktop.swingx.JXFrame
 import java.awt.Dimension
 import java.awt.LayoutManager
@@ -26,6 +27,7 @@ data class Frame<T : Layout<LayoutManager>>(
     val width: Int = 420,
     val height: Int = 360,
     val closeOperation: CloseOperation = CloseOperation.EXIT,
+    val menu: Pair<MenuBar<*>, Constraint>? = null,
     val componentList: ComponentMap
 ) : Container<T, Constraint>() {
     internal val widget: JXFrame = JXFrame().apply {
@@ -36,6 +38,8 @@ data class Frame<T : Layout<LayoutManager>>(
         )
         defaultCloseOperation = closeOperation.ordinal
         layout = this@Frame.layout.toAWT()
+
+        menu?.let { add(it.first.toAWT(), it.second.toAWT()) }
     }
 
     fun show(): Frame<T> = this.apply { widget.isVisible = true }
@@ -47,11 +51,13 @@ data class Frame<T : Layout<LayoutManager>>(
 @SwingDSL
 class FrameBuilder<T : Layout<LayoutManager>>(
     var layout: T
-) : WidgetBuilder<Frame<*>, Constraint>() {
+) : ContainerBuilder<Frame<*>, Constraint>() {
     var title: String = ""
     var width: Int = 0
     var height: Int = 0
     var closeOperation: CloseOperation = CloseOperation.EXIT
 
-    override fun build() = Frame(layout, title, width, height, closeOperation, components)
+    internal var menu: Pair<MenuBar<*>, Constraint>? = null
+
+    override fun build() = Frame(layout, title, width, height, closeOperation, menu, components)
 }

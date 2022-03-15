@@ -10,14 +10,15 @@ import com.deflatedpickle.swingkt.api.Listener
 import com.deflatedpickle.swingkt.api.Orientation
 import com.deflatedpickle.swingkt.api.SwingDSL
 import com.deflatedpickle.swingkt.impl.Constraint
+import com.deflatedpickle.swingkt.impl.ContainerBuilder
 import com.deflatedpickle.swingkt.impl.Model
 import com.deflatedpickle.swingkt.impl.WidgetBuilder
 import javax.swing.JSlider
 
-fun <C : Constraint> WidgetBuilder<*, C>.slider(
+fun <C : Constraint> ContainerBuilder<*, C>.slider(
     constraint: C,
     block: SliderBuilder<C>.() -> Unit = {}
-) = SliderBuilder(constraint).apply(block).make().apply { components[this] = constraint }
+) = SliderBuilder(constraint).apply(block).build().apply { components[this] = constraint }
 
 inline fun <reified T : Any, C : Constraint> Slider(
     constraint: C,

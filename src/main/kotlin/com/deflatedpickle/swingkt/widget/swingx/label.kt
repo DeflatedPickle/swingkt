@@ -7,14 +7,15 @@ package com.deflatedpickle.swingkt.widget.swingx
 import com.deflatedpickle.swingkt.api.Component
 import com.deflatedpickle.swingkt.api.SwingDSL
 import com.deflatedpickle.swingkt.impl.Constraint
+import com.deflatedpickle.swingkt.impl.ContainerBuilder
 import com.deflatedpickle.swingkt.impl.WidgetBuilder
 import org.jdesktop.swingx.JXLabel
 import javax.swing.Icon
 
-fun <C : Constraint> WidgetBuilder<*, C>.label(
+fun <C : Constraint> ContainerBuilder<*, C>.label(
     constraint: C,
     block: LabelBuilder<C>.() -> Unit = {}
-) = LabelBuilder(constraint).apply(block).make().apply { components[this] = constraint }
+) = LabelBuilder(constraint).apply(block).build().apply { components[this] = constraint }
 
 @SwingDSL
 data class Label<C : Constraint>(

@@ -4,15 +4,14 @@
 
 package com.deflatedpickle.swingkt.impl
 
+import com.deflatedpickle.swingkt.api.Alignment
 import com.deflatedpickle.swingkt.api.AwtObject
 import com.deflatedpickle.swingkt.api.Compass
 import java.awt.BorderLayout
 
-sealed class Constraint : AwtObject<Any> {
-    enum class Alignment {
-        LEFT,
-        RIGHT,
-        CENTER,
+sealed class Constraint : AwtObject<Any?> {
+    class None : Constraint() {
+        override fun toAWT(): Any? = null
     }
 
     data class Border(
@@ -30,6 +29,6 @@ sealed class Constraint : AwtObject<Any> {
     data class Flow(
         val alignment: Alignment = Alignment.CENTER
     ) : Constraint() {
-        override fun toAWT(): Int = this.alignment.ordinal
+        override fun toAWT(): Int = alignment.toFlow()
     }
 }

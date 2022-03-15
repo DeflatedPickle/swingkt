@@ -4,6 +4,7 @@
 
 package com.deflatedpickle.swingkt.impl
 
+import com.deflatedpickle.swingkt.api.Alignment
 import com.deflatedpickle.swingkt.api.AwtObject
 import java.awt.BorderLayout
 import java.awt.FlowLayout
@@ -11,12 +12,6 @@ import java.awt.LayoutManager
 import kotlin.reflect.KClass
 
 sealed class Layout<out T : LayoutManager> : AwtObject<LayoutManager> {
-    enum class Alignment {
-        LEFT,
-        CENTER,
-        RIGHT,
-    }
-
     data class Border(
         val hGap: Int = 0,
         val vGap: Int = 0
@@ -38,7 +33,7 @@ sealed class Layout<out T : LayoutManager> : AwtObject<LayoutManager> {
         override fun toConstraint(): KClass<out Constraint> = Constraint.Flow::class
 
         override fun toAWT(): FlowLayout = FlowLayout().apply {
-            this.alignment = this@Flow.alignment.ordinal
+            this.alignment = this@Flow.alignment.toFlow()
             this.alignOnBaseline = this@Flow.alignOnBaseline
             this.hgap = this@Flow.hGap
             this.vgap = this@Flow.vGap
